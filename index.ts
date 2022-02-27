@@ -1,11 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+import userRoutes from "./routes/user";
 
 const app = express();
-const userRoutes = require("./routes/user");
-
-require("dotenv").config();
+dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

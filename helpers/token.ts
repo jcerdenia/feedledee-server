@@ -1,13 +1,26 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+
+interface User {
+  _id: string;
+  email: string;
+  [key: string]: unknown;
+}
+
 const secret = "Feedledee";
 
-const create = (user) => {
+export const create = (user: User): any => {
   const payload = { id: user._id, email: user.email };
   return jwt.sign(payload, secret, {});
 };
 
-const verify = (req, res, next) => {
+export const verify = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): any => {
   let token = req.headers.authorization;
+
   if (token) {
     token = token.slice(7, token.length);
     return jwt.verify(token, secret, (err) => {
@@ -18,15 +31,13 @@ const verify = (req, res, next) => {
   }
 };
 
-const decode = (token) => {
+export const decode = (token: string): any => {
   if (token) {
     token = token.slice(7, token.length);
     return jwt.verify(token, secret, (err) => {
-      return err ? null : jwt.decode(token, { complete: true }).payload;
+      return err ? null : jwt.decode(token, { complete: true })?.payload;
     });
   } else {
     return null;
   }
 };
-
-module.exports = { create, verify, decode };
