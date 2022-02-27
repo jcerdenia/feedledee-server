@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const token = require("../token");
 
 const register = (params) => {
   const newUser = new User({
@@ -10,4 +11,20 @@ const register = (params) => {
   return newUser.save().then((_user, err) => (err ? false : true));
 };
 
-module.exports = { register };
+const auth = (params) => {
+  return User.findOne({ email: params.email }).then((user) => {
+    switch (true) {
+      case !user: {
+        return false;
+      }
+      case user && !bcrypt.compareSync(params.password, user.password): {
+        return false;
+      }
+      default: {
+        return { accessToken: token.create(user) };
+      }
+    }
+  });
+};
+
+module.exports = { register, auth };
