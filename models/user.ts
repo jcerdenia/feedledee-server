@@ -1,22 +1,28 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  email: {
+  username: {
     type: String,
-    required: [true, "Email is required."],
+    required: [true, "Username is required."],
   },
   password: {
     type: String,
     required: [true, "Password is required."],
   },
-  dateCreated: {
+  date_created: {
     type: Date,
     default: new Date(),
   },
-  feedIDs: [
+  subscriptions: [
     {
-      type: String,
-      required: [false],
+      feed_id: {
+        type: String,
+        required: [true, "Feed ID is required."],
+      },
+      category: {
+        type: String,
+        default: "Uncategorized",
+      },
     },
   ],
 });

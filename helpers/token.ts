@@ -3,12 +3,12 @@ import { Request, Response, NextFunction } from "express";
 
 interface User {
   _id: string;
-  email: string;
+  username: string;
   [key: string]: unknown;
 }
 
 export const create = (user: User): any => {
-  const payload = { id: user._id, email: user.email };
+  const payload = { id: user._id, username: user.username };
   return jwt.sign(payload, process.env.JWT_SECRET as string, {});
 };
 

@@ -3,16 +3,16 @@ import bcrypt from "bcrypt";
 import * as token from "../helpers/token";
 
 interface UserParams {
-  email: string;
+  username: string;
   password: string;
 }
 
 export const register = async (params: UserParams): Promise<any> => {
-  const result = await User.find({ email: params.email });
+  const users = await User.find({ username: params.username });
 
-  if (!result.length) {
+  if (!users.length) {
     const newUser = new User({
-      email: params.email,
+      username: params.username,
       password: bcrypt.hashSync(params.password, 10),
     });
 
@@ -23,7 +23,7 @@ export const register = async (params: UserParams): Promise<any> => {
 };
 
 export const auth = async (params: UserParams): Promise<any> => {
-  const user = await User.findOne({ email: params.email });
+  const user = await User.findOne({ username: params.username });
 
   switch (true) {
     case !user: {
