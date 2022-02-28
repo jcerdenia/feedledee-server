@@ -7,11 +7,9 @@ interface User {
   [key: string]: unknown;
 }
 
-const secret = "Feedledee";
-
 export const create = (user: User): any => {
   const payload = { id: user._id, email: user.email };
-  return jwt.sign(payload, secret, {});
+  return jwt.sign(payload, process.env.JWT_SECRET as string, {});
 };
 
 export const verify = (
@@ -23,7 +21,7 @@ export const verify = (
 
   if (token) {
     token = token.slice(7, token.length);
-    return jwt.verify(token, secret, (err) => {
+    return jwt.verify(token, process.env.JWT_SECRET as string, (err) => {
       return err ? res.send(err) : next();
     });
   } else {
@@ -34,7 +32,7 @@ export const verify = (
 export const decode = (token: string): any => {
   if (token) {
     token = token.slice(7, token.length);
-    return jwt.verify(token, secret, (err) => {
+    return jwt.verify(token, process.env.JWT_SECRET as string, (err) => {
       return err ? null : jwt.decode(token, { complete: true })?.payload;
     });
   } else {
