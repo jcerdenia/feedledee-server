@@ -15,13 +15,21 @@ const userSchema = new mongoose.Schema({
   },
   subscriptions: [
     {
-      feed_id: {
+      url: {
         type: String,
-        required: [true, "Feed ID is required."],
+        required: [true, "Subscription URL is required."],
       },
       category: {
         type: String,
         default: "Uncategorized",
+      },
+    },
+  ],
+  read_entries: [
+    {
+      entry_id: {
+        type: String,
+        required: [true, "Entry ID is required."],
       },
     },
   ],
