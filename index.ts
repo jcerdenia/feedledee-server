@@ -13,12 +13,8 @@ app.use(cors());
 
 app.use("/user", userRoutes);
 
-app.get("/", (_req, res) => {
-  res.send("It works!");
-});
-
 app.listen(process.env.PORT, () => {
-  console.log(`Server running at port ${process.env.PORT}.`);
+  console.log(`Server listening at port ${process.env.PORT}.`);
 });
 
 mongoose.connection.once("open", () => {
